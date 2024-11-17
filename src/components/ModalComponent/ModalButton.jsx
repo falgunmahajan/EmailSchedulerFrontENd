@@ -40,7 +40,7 @@ const ModalButton = () => {
                 </div>
             </div>
             {
-                addedData==="email"  ?<>
+                addedData==="email" && modalData.type!=="addLeadSource" ?<>
                  <h1 className='text-[20px] mt-8'>Conditions</h1>
             <div className='mt-[10px] bg-[#f9f9f9]  w-[400px] p-[15px] rounded-[5px] shadow-lg  border  border-[#d7d7d7] flex items-center gap-4'  onClick={() => {
                  if(addedData=="ReEmail"){

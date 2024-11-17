@@ -7,15 +7,29 @@ import { RxCross2 } from 'react-icons/rx';
 
 const ColdEmailNode = ({ data }) => {
     const [showIcons, setShowIcons] = useState(false);
-    const { nodes, setNodes, edges, setEdges } = useContext(AppContext);
+    const { nodes, setNodes, edges, setEdges, setAddedData } = useContext(AppContext);
     const deleteNodeEdge = () => {
         let updatedNode = nodes.filter(item => item.id !== data.id);
-
+        updatedNode = updatedNode.map(item => {
+            const yPos=item.position.y - 200;
+            if (item.type === "addMoreNode" || item.type === "coldEmailNode" || item.type === "waitDelayNode" ) {
+                return {
+                    ...item,
+                    position: {
+                        x: item.position.x,
+                        y:yPos===300? item.position.y:item.position.y - 200,
+                    },
+                };
+            }
+            return item;
+        });
         setNodes(updatedNode)
         const updatedEdges = edges.filter(item => item.source !== `${data.id}`);
-      
 
-        setEdges(updatedEdges)
+
+        setEdges(updatedEdges);
+        setAddedData("")
+
 
     }
     return (

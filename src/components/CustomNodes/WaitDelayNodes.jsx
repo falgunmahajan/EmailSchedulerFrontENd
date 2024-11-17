@@ -7,14 +7,32 @@ import { AppContext } from '../ContextProvider'
 
 const WaitDelayNodes = ({data}) => {
     const [showIcons,setShowIcons] = useState(false);
-    const {nodes, setNodes, edges, setEdges} = useContext(AppContext);
+    const {nodes, setNodes, edges, setEdges, addedData , setAddedData} = useContext(AppContext);
     const deleteNodeEdge=()=>{
       let updatedNode = nodes.filter(item=>item.id!==data.id);
-      
+      updatedNode = updatedNode.map(item => {
+        const yPos=item.position.y - 200;
+        if (item.type === "addMoreNode" || item.type === "coldEmailNode" || item.type === "waitDelayNode" ) {
+            return {
+                ...item,
+                position: {
+                    x: item.position.x,
+                    y:yPos===300? item.position.y:item.position.y - 200,
+                },
+            };
+        }
+        return item;
+    });
       setNodes(updatedNode)
       const updatedEdges = edges.filter(item => item.source !== `${data.id}`);
       setEdges(updatedEdges)
-  
+      if(addedData==""){
+        setAddedData("")
+      }
+      else{
+        setAddedData("email")
+      }
+      
     }
   return (
     <div className="flex gap-5 items-center bg-[#f9f9f9] relative  w-[255px] p-[20px] rounded-[5px] shadow-lg  border  border-[#d7d7d7]" onMouseEnter={()=>setShowIcons(true)} onMouseLeave={()=>setShowIcons(false)}>
